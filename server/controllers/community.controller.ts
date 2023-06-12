@@ -2,7 +2,8 @@ import {Request, Response, NextFunction} from 'express';
 import {ResponseData} from './controllers';
 import db from '../models';
 import Web3 from 'web3';
-import {MyRequest} from '../@types/session';
+import {MyRequest} from '../@types/express/express';
+
 import {sendResponse} from './utils';
 import {Op} from 'sequelize';
 import erc20abi from '../abi/erc20abi';

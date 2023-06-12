@@ -14,6 +14,9 @@ import donation from './donation.route';
 import admin from './admin.route';
 import gallery from './gallery.route';
 import rank from './rank.route';
+import dummy from "./dummy.route";
+import data from "./data.route";
+
 
 router.use('/', main);
 router.use('/user', user);
@@ -27,5 +30,7 @@ router.use('/donation', donation);
 router.use('/admin', admin);
 router.use('/gallery', gallery);
 router.use('/rank', rank);
+router.use('/dummy', dummy);
+router.use('/data', data);
 
 export default router;

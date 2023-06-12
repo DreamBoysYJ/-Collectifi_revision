@@ -1,5 +1,6 @@
 import Web3 from 'web3';
-import {MyRequest} from '../@types/session';
+import {MyRequest} from '../@types/express/express';
+
 import express, {Request, Response, NextFunction} from 'express';
 import erc20abi from '../abi/erc20abi'; //token abi로 변경하기
 import factoryabi from '../abi/factoryabi';

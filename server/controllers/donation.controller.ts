@@ -1,7 +1,8 @@
 import express, {Request, Response, NextFunction} from 'express';
 import db from '../models';
 import {ResponseData} from './controllers';
-import {MyRequest} from '../@types/session';
+import {MyRequest} from '../@types/express/express';
+
 import {sendResponse} from './utils';
 import Web3 from 'web3';
 import erc20abi from '../abi/erc20abi';

@@ -1,6 +1,7 @@
 import express, {Request, Response, NextFunction} from 'express';
 import Web3 from 'web3';
-import {MyRequest} from '../@types/session';
+import {MyRequest} from '../@types/express/express';
+
 import erc20abi from '../abi/erc20abi';
 import soccerabi from '../abi/soccerabi';
 import db from '../models';

@@ -1,6 +1,7 @@
 import express, {Request, Response, NextFunction} from 'express';
 import Web3 from 'web3';
-import {MyRequest} from '../@types/session';
+import {MyRequest} from '../@types/express/express';
+
 
 import db from '../models';
 import {Sequelize} from 'sequelize';

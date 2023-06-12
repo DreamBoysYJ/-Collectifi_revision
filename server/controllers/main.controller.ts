@@ -1,13 +1,14 @@
 import express, {Request, Response, NextFunction} from 'express';
 import db from '../models';
-import {MyRequest} from '../@types/session';
+import {MyRequest} from '../@types/express/express';
+
 import {sendResponse} from './utils';
 import Web3 from 'web3';
 import erc20abi from '../abi/erc20abi';
-import {nft_infos} from './nft_infos';
-import {data} from './dummy_posts';
+import {nft_infos} from '../data/nft_infos';
+import {data} from '../data/dummy_posts';
 import bcrypt from 'bcrypt';
-import {gallerys} from './dummy_gallery';
+import {gallerys} from '../data/dummy_gallery';
 const web3 = new Web3(`HTTP://127.0.0.1:${process.env.GANACHE_PORT}`);
 const erc20Contract = new web3.eth.Contract(erc20abi, process.env.ERC20_CA);
 

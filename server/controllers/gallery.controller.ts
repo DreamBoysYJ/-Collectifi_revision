@@ -1,7 +1,8 @@
 import express, {Request, Response, NextFunction} from 'express';
 import db from '../models';
 const { Op } = require('sequelize')
-import {MyRequest} from '../@types/session';
+import {MyRequest} from '../@types/express/express';
+
 import {sendResponse} from './utils';
 import bcrypt from 'bcrypt';
 import erc20abi from '../abi/erc20abi';

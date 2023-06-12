@@ -1,7 +1,8 @@
 import express, {Request, Response, NextFunction} from 'express';
 import {Sequelize} from 'sequelize';
 import Web3 from 'web3';
-import {MyRequest} from '../@types/session';
+import {MyRequest} from '../@types/express/express';
+
 import erc20abi from '../abi/erc20abi';
 import erc721abi from '../abi/erc721abi';
 import db from '../models';
