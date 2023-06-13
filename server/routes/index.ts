@@ -16,7 +16,7 @@ import gallery from './gallery.route';
 import rank from './rank.route';
 import dummy from "./dummy.route";
 import data from "./data.route";
-
+import test from "./test.route";
 
 router.use('/', main);
 router.use('/user', user);
@@ -32,5 +32,6 @@ router.use('/gallery', gallery);
 router.use('/rank', rank);
 router.use('/dummy', dummy);
 router.use('/data', data);
+router.use('/test', test);
 
 export default router;

@@ -1,9 +1,9 @@
 import express, {Request, Response, NextFunction} from 'express';
 import db from '../models';
-import {ResponseData} from './controllers';
+
 import {MyRequest} from '../@types/express/express';
 
-import {sendResponse} from './utils';
+import {sendResponse} from '../utils/responseUtils';
 import Web3 from 'web3';
 import erc20abi from '../abi/erc20abi';
 const web3 = new Web3(`HTTP://127.0.0.1:${process.env.GANACHE_PORT}`);
@@ -23,14 +23,14 @@ export const mypage_get = async (req: MyRequest, res: Response, next: NextFuncti
     });
     // 2-2 정보가 없다면
     if (!user) {
-      sendResponse(res, 400, '존재하지 않는 유저입니다');
+      sendResponse(res, 400, `User doesn't exist.`);
     }
 
     // 마이페이지인지, 남의 페이지인지 확인
     const loggedInUserId = req.session.user?.id;
     const isOwner = Number(id) == loggedInUserId;
 
-    // 3. 해당 유저의 id로 post, nft 불러오기
+    // 3. 해당 유저의 id로 post, nft, gallery 불러오기
     const posts = await db.Post.findAll({
       where: {
         user_id: id,
@@ -49,14 +49,13 @@ export const mypage_get = async (req: MyRequest, res: Response, next: NextFuncti
           },
         }]
     });
-    // 4. user 정보, posts, nfts 다 보내주기
-    // const result: ResponseData = {
-    //   message: "user profile",
-    //   data: { posts, nfts, user },
-    // };
-    sendResponse(res, 200, 'user profile', {posts, nfts, user, isOwner});
+
+    // 4. user, posts, nfts, gallery, isOwner 다 보내주기
+    sendResponse(res, 200, 'Get mypage success ', {posts, nfts, user, isOwner});
   } catch (e) {
     console.log(e);
+    sendResponse(res, 500, 'Server Error : Get mypage fail');
+
   }
 };
 
@@ -65,6 +64,10 @@ export const editProfile_post = async (req: MyRequest, res: Response, next: Next
   try {
     // 1. session으로 해당 user의 id 받아오기
     const id = req.session.user?.id;
+    // 1-1. 없으면 권한없음 돌려보재기
+    if(!id) {
+      sendResponse(res,403,"Not Autorized");
+    }
     // 2. front에서 수정한 닉네임 받아오기
     const {nickname} = req.body;
     // 3. db의 User 정보 업데이트
@@ -78,11 +81,11 @@ export const editProfile_post = async (req: MyRequest, res: Response, next: Next
     );
     // 4. res 보내주기
 
-    sendResponse(res, 200, `닉네임을 ${nickname}으로 수정했습니다!`);
+    sendResponse(res, 200, `Change your nickname to ::: ${nickname}!`);
   } catch (e) {
-    sendResponse(res, 400, '닉네임 변경 실패');
-
     console.log(e);
+    sendResponse(res, 500, 'Server Error : change nickname fail');
+
   }
 };
 
@@ -100,7 +103,7 @@ export const referral_post = async (req: MyRequest, res: Response, next: NextFun
         address,
       },
     });
-    console.log(referralUser.referral);
+
 
     // 3-2. 추천인을 찾지 못하면, 프론트에 알려주기
     if (!referralUser) {
@@ -117,7 +120,7 @@ export const referral_post = async (req: MyRequest, res: Response, next: NextFun
       return sendResponse(res, 400, 'You already register referral User!');
     }
 
-    // 4. 컨트랙트 token 지급
+    // 4. 컨트랙트상으로  token 지급
 
     const rewardFrom = await erc20Contract.methods
       .transfer(fromAddress, 1000)
@@ -147,6 +150,6 @@ export const referral_post = async (req: MyRequest, res: Response, next: NextFun
     return sendResponse(res, 200, `Success Enrolling Referral User !`);
   } catch (e) {
     console.log(e);
-    sendResponse(res, 400, 'Error: Fail to register Referral User !');
+    sendResponse(res, 500, 'Server Error: Fail to register Referral User !');
   }
 };

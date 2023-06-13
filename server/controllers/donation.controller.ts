@@ -3,7 +3,7 @@ import db from '../models';
 import {ResponseData} from './controllers';
 import {MyRequest} from '../@types/express/express';
 
-import {sendResponse} from './utils';
+import {sendResponse} from '../utils/responseUtils';
 import Web3 from 'web3';
 import erc20abi from '../abi/erc20abi';
 import donation_ethAbi from '../abi/donation_ethAbi';

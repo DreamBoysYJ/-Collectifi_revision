@@ -12,7 +12,7 @@ import { connectDataBase } from './db';
 const app = express();
 
 // DB 연결
-connectDataBase();
+//connectDataBase();
 
 // Middlewares
 app.use(morgan('dev')); // 로그
@@ -31,5 +31,5 @@ app.use('/', router);
 schedulerTask();
 
 app.listen(8000, () => {
-  console.log('server listening...');
+  console.log('Server listening on port 8000...');
 });

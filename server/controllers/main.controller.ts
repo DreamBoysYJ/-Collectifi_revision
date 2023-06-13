@@ -2,7 +2,7 @@ import express, {Request, Response, NextFunction} from 'express';
 import db from '../models';
 import {MyRequest} from '../@types/express/express';
 
-import {sendResponse} from './utils';
+import {sendResponse} from '../utils/responseUtils';
 import Web3 from 'web3';
 import erc20abi from '../abi/erc20abi';
 import {nft_infos} from '../data/nft_infos';

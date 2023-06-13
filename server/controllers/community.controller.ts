@@ -4,7 +4,7 @@ import db from '../models';
 import Web3 from 'web3';
 import {MyRequest} from '../@types/express/express';
 
-import {sendResponse} from './utils';
+import {sendResponse} from '../utils/responseUtils';
 import {Op} from 'sequelize';
 import erc20abi from '../abi/erc20abi';
 // 글 목록 페이지
