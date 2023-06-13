@@ -1,12 +1,11 @@
 
 import { MyRequest } from "../@types/express/express";
 import  {Response, NextFunction} from 'express';
-
 import db from "../models";
 import { data } from "../data/dummy_posts";
 import bcrypt from 'bcrypt';
 import { gallerys } from "../data/dummy_gallery";
-import { nft_infos } from "../data/nft_infos";
+
 
 
 //더미 User 10개 만들고 넣기

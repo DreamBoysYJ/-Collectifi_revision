@@ -12,7 +12,7 @@ import { connectDataBase } from './db';
 const app = express();
 
 // DB 연결
-//connectDataBase();
+connectDataBase();
 
 // Middlewares
 app.use(morgan('dev')); // 로그

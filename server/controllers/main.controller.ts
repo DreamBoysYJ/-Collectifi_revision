@@ -1,16 +1,12 @@
 import express, {Request, Response, NextFunction} from 'express';
 import db from '../models';
 import {MyRequest} from '../@types/express/express';
-
 import {sendResponse} from '../utils/responseUtils';
-import Web3 from 'web3';
-import erc20abi from '../abi/erc20abi';
 import {nft_infos} from '../data/nft_infos';
 import {data} from '../data/dummy_posts';
 import bcrypt from 'bcrypt';
 import {gallerys} from '../data/dummy_gallery';
-const web3 = new Web3(`HTTP://127.0.0.1:${process.env.GANACHE_PORT}`);
-const erc20Contract = new web3.eth.Contract(erc20abi, process.env.ERC20_CA);
+import { erc20Contract } from '../utils/web3Utils';
 
 // 홈페이지는 프론트에서 서비스 소개 페이지로 대체 될 예정
 

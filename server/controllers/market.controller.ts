@@ -1,13 +1,7 @@
 import express, {Request, Response, NextFunction} from 'express';
-import Web3 from 'web3';
 import {MyRequest} from '../@types/express/express';
-
-import erc20abi from '../abi/erc20abi';
-import erc721abi from '../abi/erc721abi';
 import db from '../models';
-const web3 = new Web3(`HTTP://127.0.0.1:${process.env.GANACHE_PORT}`);
-const erc20Contract = new web3.eth.Contract(erc20abi, process.env.ERC20_CA);
-const erc721Contract = new web3.eth.Contract(erc721abi, process.env.ERC721_CA);
+import { erc20Contract, erc721Contract } from '../utils/web3Utils';
 
 //판매중인 NFT 목록 조회
 export const market_get = async (req: Request, res: Response, next: NextFunction) => {

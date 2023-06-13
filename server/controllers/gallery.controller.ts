@@ -2,18 +2,8 @@ import express, {Request, Response, NextFunction} from 'express';
 import db from '../models';
 const { Op } = require('sequelize')
 import {MyRequest} from '../@types/express/express';
-
 import {sendResponse} from '../utils/responseUtils';
-import bcrypt from 'bcrypt';
-import erc20abi from '../abi/erc20abi';
-import erc721abi from '../abi/erc721abi';
-import galleryabi from '../abi/galleryabi';
-import Web3 from 'web3';
-
-const web3 = new Web3(`HTTP://127.0.0.1:${process.env.GANACHE_PORT}`);
-const erc20Contract = new web3.eth.Contract(erc20abi, process.env.ERC20_CA);
-const erc721Contract = new web3.eth.Contract(erc721abi, process.env.ERC721_CA);
-const gallContract = new web3.eth.Contract(galleryabi, process.env.GALLERY_CA);
+import { erc721Contract, gallContract } from '../utils/web3Utils';
 
 // 갤러리 페이지
 export const gallery_get = async (req: MyRequest, res: Response, next: NextFunction) => {

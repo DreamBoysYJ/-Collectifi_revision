@@ -1,14 +1,11 @@
 import express, {Request, Response, NextFunction} from 'express';
-import Web3 from 'web3';
-import {MyRequest} from '../@types/express/express';
-import erc20abi from '../abi/erc20abi';
-import erc721abi from '../abi/erc721abi';
-import db from '../models';
-import {Sequelize} from 'sequelize';
-const web3 = new Web3(`HTTP://127.0.0.1:${process.env.GANACHE_PORT}`);
-const erc20Contract = new web3.eth.Contract(erc20abi, process.env.ERC20_CA);
-const erc721Contract = new web3.eth.Contract(erc721abi, process.env.ERC721_CA);
 
+import {MyRequest} from '../@types/express/express';
+import db from '../models';
+import { sendResponse } from '../utils/responseUtils';
+import { erc20Contract, erc721Contract } from '../utils/web3Utils';
+
+// 업그레이드 가능한 카드 보여주는 
 export const upgrade_get = async (req: MyRequest, res: Response, next: NextFunction) => {
   try {
     //유저 정보,강화할 NFT들의 정보 가져오기
@@ -25,11 +22,18 @@ export const upgrade_get = async (req: MyRequest, res: Response, next: NextFunct
       },
     });
     console.log('============nft==========', nfts);
-    res.status(200).send({message: '성공', data: {nfts, token_amount: user.token_amount}});
+    //sendResponse(res,200,"Upgrade get Successed", {nfts,token_amount: user.token_amount});
+    res.status(200).send({message: 'Upgrade get Successed', data: {nfts, token_amount: user.token_amount}});
   } catch (e) {
     console.log(e);
+    sendResponse(res,500,"Server Error : upgrade_get fail get");
+
+
+
   }
 };
+
+// 업그레이드 시도
 export const upgrade_post = async (req: MyRequest, res: Response, next: NextFunction) => {
   try {
     //user와 nft 정보를 받아와야 한다.

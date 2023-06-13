@@ -1,13 +1,7 @@
 import express, {Request, Response, NextFunction} from 'express';
-import Web3 from 'web3';
 import {MyRequest} from '../@types/express/express';
-
-import erc20abi from '../abi/erc20abi';
-import soccerabi from '../abi/soccerabi';
 import db from '../models';
-const web3 = new Web3(`HTTP://127.0.0.1:${process.env.GANACHE_PORT}`);
-const erc20Contract = new web3.eth.Contract(erc20abi, process.env.ERC20_CA);
-const soccerContract = new web3.eth.Contract(soccerabi, process.env.SOCCER_CA);
+import { erc20Contract, soccerContract } from '../utils/web3Utils';
 
 export const game_fund_post = async (req: MyRequest, res: Response, next: NextFunction) => {
   try {

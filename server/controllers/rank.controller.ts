@@ -1,11 +1,8 @@
 import express, {Request, Response, NextFunction} from 'express';
-import Web3 from 'web3';
 import {MyRequest} from '../@types/express/express';
-
-
 import db from '../models';
-import {Sequelize} from 'sequelize';
-const web3 = new Web3(`HTTP://127.0.0.1:${process.env.GANACHE_PORT}`);
+
+
 
 export const rank_get = async (req: MyRequest, res: Response, next: NextFunction) => {
   try {

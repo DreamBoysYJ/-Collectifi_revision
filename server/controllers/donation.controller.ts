@@ -1,22 +1,8 @@
 import express, {Request, Response, NextFunction} from 'express';
 import db from '../models';
-import {ResponseData} from './controllers';
 import {MyRequest} from '../@types/express/express';
-
 import {sendResponse} from '../utils/responseUtils';
-import Web3 from 'web3';
-import erc20abi from '../abi/erc20abi';
-import donation_ethAbi from '../abi/donation_ethAbi';
-import donation_colAbi from '../abi/donation_colAbi';
-import donation_eth_endAbi from '../abi/donation_eth_endAbi';
-const web3 = new Web3(`HTTP://127.0.0.1:${process.env.GANACHE_PORT}`);
-const erc20Contract = new web3.eth.Contract(erc20abi, process.env.ERC20_CA);
-const donation_eth_Contract = new web3.eth.Contract(donation_ethAbi, process.env.DONATION_ETH_CA);
-const donation_col_Contract = new web3.eth.Contract(donation_colAbi, process.env.DONATION_COL_CA);
-const donation_eth_end_Contract = new web3.eth.Contract(
-  donation_eth_endAbi,
-  process.env.DONATION_ETH_END_CA,
-);
+import { donation_col_Contract, donation_eth_Contract, donation_eth_end_Contract, erc20Contract, web3 } from '../utils/web3Utils';
 
 // 기부 페이지
 export const donation_get = async (req: MyRequest, res: Response, next: NextFunction) => {

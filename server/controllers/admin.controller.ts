@@ -3,12 +3,7 @@ import db from '../models';
 import {MyRequest} from '../@types/express/express';
 import {sendResponse} from '../utils/responseUtils';
 import bcrypt from 'bcrypt';
-import erc20abi from '../abi/erc20abi';
-import soccerabi from '../abi/soccerabi';
-import Web3 from 'web3';
-const web3 = new Web3(`HTTP://127.0.0.1:${process.env.GANACHE_PORT}`);
-const erc20Contract = new web3.eth.Contract(erc20abi, process.env.ERC20_CA);
-const soccerContract = new web3.eth.Contract(soccerabi, process.env.SOCCER_CA);
+import { soccerContract } from '../utils/web3Utils';
 
 // 관리자 로그인
 export const admin_login_post = async (req: MyRequest, res: Response, next: NextFunction) => {
@@ -34,10 +29,10 @@ export const admin_login_post = async (req: MyRequest, res: Response, next: Next
     // 4. 세션을 관리자 자격으로 부여
     req.session.admin = true;
     // 5. 프론트로 돌려보냄
-    return sendResponse(res, 200, 'user profile');
+    sendResponse(res, 200, 'Login Success');
   } catch (e) {
     console.log(e);
-    return sendResponse(res, 400, 'error');
+    sendResponse(res, 500, 'Server Error : admin_login_get Fail');
   }
 };
 
@@ -52,9 +47,11 @@ export const admin_users_get = async (req: MyRequest, res: Response, next: NextF
     //2. users 모든 데이터 불러오기
     const users = await db.User.findAll();
 
-    sendResponse(res, 200, 'user profile', {users});
+    sendResponse(res, 200, 'get users Success', {users});
   } catch (e) {
     console.log(e);
+    sendResponse(res, 500, 'Server Error : admin_users_get fail');
+
   }
 };
 
@@ -72,6 +69,8 @@ export const admin_posts_get = async (req: MyRequest, res: Response, next: NextF
     sendResponse(res, 200, 'posts', {posts});
   } catch (e) {
     console.log(e);
+    sendResponse(res, 500, 'Server Error : admin_posts_get fail');
+
   }
 };
 
@@ -89,6 +88,8 @@ export const admin_comments_get = async (req: MyRequest, res: Response, next: Ne
     sendResponse(res, 200, 'comments', {comments});
   } catch (e) {
     console.log(e);
+    sendResponse(res, 500, 'Server Error : admin_comments_get fail');
+
   }
 };
 
@@ -106,6 +107,8 @@ export const admin_blacklists_get = async (req: MyRequest, res: Response, next: 
     sendResponse(res, 200, 'blacklists', {blacklists});
   } catch (e) {
     console.log(e);
+    sendResponse(res, 500, 'Server Error : admin_blacklists_get fail');
+    
   }
 };
 
@@ -132,7 +135,7 @@ export const admin_post_delete = async (req: MyRequest, res: Response, next: Nex
     sendResponse(res, 200, 'Delete the Post Successfully');
   } catch (e) {
     console.log(e);
-    sendResponse(res, 400, 'Error : Fail to find the post');
+    sendResponse(res, 500, 'Server Error : admin_post_delete Fail');
   }
 };
 
@@ -159,11 +162,13 @@ export const admin_comment_delete = async (req: MyRequest, res: Response, next: 
     return sendResponse(res, 200, 'Delete the Comment Successfully');
   } catch (e) {
     console.log(e);
-    return sendResponse(res, 400, 'Error : Fail to find the Comment');
+    sendResponse(res, 500, 'Server Error : admin_comment_delete Fail');
+
   }
 };
 
 // 특정 user 삭제하기 => 밴하기
+// 특정 User 블랙리스트 추가 
 export const admin_user_blacklist = async (req: MyRequest, res: Response, next: NextFunction) => {
   try {
     //1. 관리자인지 확인
@@ -181,8 +186,8 @@ export const admin_user_blacklist = async (req: MyRequest, res: Response, next: 
       },
     });
     if (blacklistExist) {
-      console.log('이미 존재 합니다');
-      return sendResponse(res, 400, 'Already exists.');
+
+      return sendResponse(res, 400, 'That User Already exist in Blacklist');
     }
 
     // 3. 해당 address를 블랙리스트에 등록
@@ -200,10 +205,10 @@ export const admin_user_blacklist = async (req: MyRequest, res: Response, next: 
     //   return sendResponse(res, 400, 'Fail to find the user');
     // }
     // 4. front에 응답 보내주기
-    return sendResponse(res, 200, addBlackList);
+    sendResponse(res, 200, addBlackList);
   } catch (e) {
     console.log(e);
-    return sendResponse(res, 400, 'Error : Fail to ban the user');
+    sendResponse(res, 500, 'Server Error : admin_user_blacklist Fail');
   }
 };
 
@@ -228,10 +233,10 @@ export const admin_blacklist_delete = async (req: MyRequest, res: Response, next
       return sendResponse(res, 400, 'Fail to find the blacklist');
     }
     // 4. front에 응답 보내주기
-    return sendResponse(res, 200, 'Delete the blacklist Successfully');
+    sendResponse(res, 200, 'Delete the blacklist Successfully');
   } catch (e) {
     console.log(e);
-    return sendResponse(res, 400, 'Error : Fail to find the blacklist');
+    sendResponse(res, 500, 'Error : admin_blacklist_delete Fail');
   }
 };
 
