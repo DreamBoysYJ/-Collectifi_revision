@@ -1,6 +1,7 @@
 import cron from 'node-cron';
 import db from './models';
 
+// 랭킹선정 함수
 const setRank = async () => {
     try {
 // 1. db rank에서 이전 랭커들 찾기
@@ -43,6 +44,7 @@ console.log(`Updating Ranking is Completed.`)
     
   };
 
+  // 스케줄러 함수들 실행
 export const schedulerTask = () => {
     try {
         cron.schedule('0 0 * * 1', setRank); // 매주 월요일 00:00에 실행
